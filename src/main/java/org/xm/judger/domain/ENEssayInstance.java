@@ -25,14 +25,6 @@ public class ENEssayInstance extends EssayInstance {
     public static final Pattern endsInAbbreviation = Pattern.compile(".*(Mr|Mrs|Dr|Jr|Ms|Prof|Sr|dept|Univ|Inc|Ltd|Co" +
             "|Corp|Mt|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Sept|vs|etc|no)\\.");
 
-    public enum BaseName {
-        AverageWordLength,
-        AverageIDF,
-        OOVs,
-        obvious_typos,
-        overlap_coherence
-    }
-
     @Override
     public ArrayList<ArrayList<ArrayList<String>>> getParagraphs() {
         if (cachedParse != null) return cachedParse;
@@ -91,11 +83,12 @@ public class ENEssayInstance extends EssayInstance {
 
     /**
      * print essay instance info
+     *
      * @param instances
      */
-    public void printEssayInstances(ArrayList<EssayInstance> instances) {
+    public static void printEssayInstances(ArrayList<ENEssayInstance> instances, String outFile) {
         try {
-            PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("data/examples.utf8"), Charset.forName("UTF-8")));
+            PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8")));
             for (EssayInstance essay : instances)
                 out.println(essay + "\n");
             out.close();

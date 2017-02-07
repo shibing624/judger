@@ -2,8 +2,12 @@ package org.xm.judger.parser;
 
 import org.xm.judger.domain.Config;
 import org.xm.judger.domain.ENEssayInstance;
-import org.xm.judger.domain.EssayInstance;
+import org.xm.xmnlp.dic.DicReader;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +15,7 @@ import java.util.regex.Pattern;
  * Parse the EN essay instance
  * @author xuming
  */
-public class ENEssayInstanceParser implements EssayInstanceParser {
+public class ENEssayInstanceParser {
 
     /**
      * match CSV-escaped double quotes
@@ -30,9 +34,34 @@ public class ENEssayInstanceParser implements EssayInstanceParser {
      */
     public static final Pattern escapedFunkyQuote2 = Pattern.compile("''");
 
-     public EssayInstance parseFields(String line) {
+    public ArrayList<ENEssayInstance> parse(String filename, boolean header) {
+        ArrayList<ENEssayInstance> essayInstances = new ArrayList<>();
+        BufferedReader br;
+        try {
+            br = DicReader.getReader(filename);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (header == true) {
+                    header = false;
+                    continue;
+                }
+                ENEssayInstance essay = parseFields(line);
+                essayInstances.add(essay);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return essayInstances;
+    }
+
+     private ENEssayInstance parseFields(String line) {
         String[] fields = line.split("\t");
-        EssayInstance essay = new ENEssayInstance();
+        ENEssayInstance essay = new ENEssayInstance();
         essay.id = parseInt(fields[0]);
         essay.set = parseInt(fields[1]);
         essay.essay = cleanupText(csvUnescape(fields[2]));

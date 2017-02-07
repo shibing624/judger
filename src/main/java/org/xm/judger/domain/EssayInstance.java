@@ -89,13 +89,6 @@ public abstract class EssayInstance {
     public abstract ArrayList<ArrayList<ArrayList<String>>> getParagraphs();
 
     /**
-     * print essay instance info
-     *
-     * @param instances
-     */
-    public abstract void printEssayInstances(ArrayList<EssayInstance> instances);
-
-    /**
      * get token(String) from paragraphs
      *
      * @return the parsed the paragraph to word levels

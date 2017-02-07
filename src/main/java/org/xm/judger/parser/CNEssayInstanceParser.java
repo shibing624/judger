@@ -1,8 +1,11 @@
 package org.xm.judger.parser;
 
 import org.xm.judger.domain.CNEssayInstance;
-import org.xm.judger.domain.EssayInstance;
+import org.xm.xmnlp.dic.DicReader;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,19 +16,40 @@ import java.util.regex.Pattern;
  *
  * @author xuming
  */
-public class CNEssayInstanceParser implements EssayInstanceParser {
+public class CNEssayInstanceParser {
     /**
      * match CSV-escaped double quotes
      */
     public static final Pattern escapedDoubleQuote = Pattern.compile("\"\"");
-    @Override
-    public ArrayList<EssayInstance> parse(String filename, boolean header) {
-        return null;
+
+    public ArrayList<CNEssayInstance> parse(String filename, boolean header) {
+        ArrayList<CNEssayInstance> essayInstances = new ArrayList<>();
+        BufferedReader br;
+        try {
+            br = DicReader.getReader(filename);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (header == true) {
+                    header = false;
+                    continue;
+                }
+                CNEssayInstance essay = parseFields(line);
+                essayInstances.add(essay);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return essayInstances;
     }
 
-    public EssayInstance parseFields(String line) {
+    private CNEssayInstance parseFields(String line) {
         String[] fields = line.split("\t");
-        EssayInstance essay = new CNEssayInstance();
+        CNEssayInstance essay = new CNEssayInstance();
         essay.id = parseInt(fields[0]);
         essay.set = parseInt(fields[1]);
         essay.essay = csvUnescape(fields[2]);

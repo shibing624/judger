@@ -2,6 +2,7 @@ package org.xm.judger.domain;
 
 import org.xm.xmnlp.Xmnlp;
 import org.xm.xmnlp.seg.domain.Term;
+import org.xm.xmnlp.util.StringUtil;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,7 +38,9 @@ public class CNEssayInstance extends EssayInstance {
                 // get token
                 List<Term> tokens = Xmnlp.segment(sentence);
                 for (Term token : tokens) {
-                    if (token == null || token.word == null)
+                    if (token == null || StringUtil.isNotBlank(token.word))
+                        continue;
+                    if(token.nature.startsWith("w"))
                         continue;
                     wordList.add(token.word);
                 }
@@ -46,15 +49,20 @@ public class CNEssayInstance extends EssayInstance {
         return cachedParse;
     }
 
-    @Override
-    public void printEssayInstances(ArrayList<EssayInstance> instances) {
+    /**
+     * print essay instance info
+     *
+     * @param instances
+     */
+    public static void printEssayInstances(ArrayList<CNEssayInstance> instances, String outFile) {
         try {
-            PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("data/CNEssay_examples.utf8"), Charset.forName("UTF-8")));
-            for (EssayInstance essay : instances)
+            PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8")));
+            for (CNEssayInstance essay : instances)
                 out.println(essay + "\n");
             out.close();
         } catch (IOException e) {
             System.err.println("Failure to write to outfile: " + e);
         }
     }
+
 }
