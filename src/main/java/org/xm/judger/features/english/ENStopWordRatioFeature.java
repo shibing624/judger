@@ -17,7 +17,7 @@ import java.util.HashSet;
  */
 public class ENStopWordRatioFeature implements ENFeatures {
     HashSet<String> stopwords;
-    private static final String PATH = Config.ENStopwordsPath;
+    private static final String PATH = Config.StopwordsPath;
 
     public ENStopWordRatioFeature() throws IOException {
         this(PATH);

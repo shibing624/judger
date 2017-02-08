@@ -27,13 +27,8 @@ public class CNSentenceCoherenceFeature implements CNFeatures {
                 HashSet<String> words = new HashSet<>();
                 for (String token : sentence) {
                     token = token.toLowerCase();
-                    if (token.length() == 1 && !token.matches("\\w"))
-                        continue;
                     if (partParagraph.contains(token))
                         overlap++;
-                    // potential fallback rules:
-                    // the should overlap the a/an;
-                    // he/she/her/it should overlap with anything
                     numWords++;
                     words.add(token);
                 }

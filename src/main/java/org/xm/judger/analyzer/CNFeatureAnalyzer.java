@@ -121,8 +121,8 @@ public class CNFeatureAnalyzer {
     public static void analysis(ArrayList<CNEssayInstance> instances) {
         // analysis features are good or bad
         correlationTest(instances, 1);
-        correlationTest(instances, 2);
-        correlationTest(instances, 3);
+//        correlationTest(instances, 2);
+//        correlationTest(instances, 3);
         // show the average score, etc
         analyseFeature(filter(instances, 1), "grade");
     }

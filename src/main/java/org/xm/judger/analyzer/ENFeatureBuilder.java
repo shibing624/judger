@@ -55,8 +55,8 @@ public class ENFeatureBuilder {
         ENFeaturesArrayList.add(wordFeature);
         // primary features
         for (ENEssayInstance instance : instances) {
-            for (ENFeatures ENFeatures : ENFeaturesArrayList)
-                instance.setFeature(ENFeatures.getFeatureScores(instance));
+            for (ENFeatures features : ENFeaturesArrayList)
+                instance.setFeature(features.getFeatureScores(instance));
         }
         ArrayList<ENFeatures> normlizationFeatures = new ArrayList<>();
         normlizationFeatures.add(new ENMinMaxNormalizerFeature(instances, wordFeature, "OOVs"));

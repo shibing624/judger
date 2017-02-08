@@ -18,8 +18,7 @@ import java.util.regex.Pattern;
  */
 public class CNEssayInstance extends EssayInstance {
 
-    public static final Pattern paragraphPattern = Pattern.compile("\\s{3,}");
-    public static final Pattern sentencePattern = Pattern.compile("(?<=[\\.?!][^\\w\\s]?)\\s+(?![a-z])");
+    private static final Pattern paragraphPattern = Pattern.compile("\\s{2,}");
 
     @Override
     public ArrayList<ArrayList<ArrayList<String>>> getParagraphs() {
@@ -30,23 +29,51 @@ public class CNEssayInstance extends EssayInstance {
             ArrayList<ArrayList<String>> sentenceList = new ArrayList<>();
             cachedParse.add(sentenceList);
             // get sentence
-            String[] sentences = sentencePattern.split(paragraph);
+            List<String> sentences = splitSentence(paragraph);
             for (String sentence : sentences) {
-                ArrayList<String> wordList;
-                wordList = new ArrayList<>();
+                ArrayList<String> wordList = new ArrayList<>();
                 sentenceList.add(wordList);
                 // get token
                 List<Term> tokens = Xmnlp.segment(sentence);
                 for (Term token : tokens) {
-                    if (token == null || StringUtil.isNotBlank(token.word))
+                    if (token == null || StringUtil.isBlank(token.word))
                         continue;
-                    if(token.nature.startsWith("w"))
-                        continue;
+//                    if (token.nature.startsWith("w"))
+//                        continue;
                     wordList.add(token.word);
                 }
             }
         }
         return cachedParse;
+    }
+
+    /**
+     * 把文章分割为句子
+     *
+     * @param document
+     * @return
+     */
+    private List<String> splitSentence(String document) {
+        List<String> sentences = new ArrayList<String>();
+        for (String line : document.split("[\r\n]")) {
+            line = line.trim();
+            if (line.length() == 0) continue;
+
+            int i = 0;
+            for (String s : line.split("[,，.。；;“”？?!！：:]")) {
+                s = s.trim();
+                if (s.length() == 0)
+                    continue;
+                int step = s.length() + 1;
+                if (i + step >= line.length())
+                    s = line.substring(i);
+                else s = line.substring(i, i + step);
+                i += step;
+                sentences.add(s);
+            }
+
+        }
+        return sentences;
     }
 
     /**
@@ -58,7 +85,7 @@ public class CNEssayInstance extends EssayInstance {
         try {
             PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8")));
             for (CNEssayInstance essay : instances)
-                out.println(essay + "\n");
+                out.println(essay);
             out.close();
         } catch (IOException e) {
             System.err.println("Failure to write to outfile: " + e);

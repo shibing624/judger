@@ -34,21 +34,20 @@ public class CNFeatureBuilder {
 
     public static ArrayList<CNEssayInstance> buildFeatures(ArrayList<CNEssayInstance> instances) {
         ArrayList<CNFeatures> CNFeaturesArrayList = new ArrayList<>();
-        CNFeaturesArrayList.add(new CNLengthFeature());
-        CNFeatures wordLengthFeature = new CNAverageWordLengthFeature();
+        CNFeaturesArrayList.add(new CNSentenceLengthFeature());
+        CNFeatures wordLengthFeature = new CNWordLengthFeature();
         CNFeaturesArrayList.add(wordLengthFeature);
         CNFeatures idfFeature = new CNIDFFeature(instances);
         CNFeaturesArrayList.add(idfFeature);
         CNFeatures coherenceFeature = new CNSentenceCoherenceFeature();
         CNFeaturesArrayList.add(coherenceFeature);
         // normalization
-        CNFeaturesArrayList.add(new CNPercentMatchesFeature(","));
-        CNFeaturesArrayList.add(new CNPercentMatchesFeature("!"));
-        CNFeaturesArrayList.add(new CNPercentMatchesFeature("?"));
-        CNFeatures theFeature = new CNPercentMatchesFeature("the");
+        CNFeaturesArrayList.add(new CNPercentMatchesFeature("，"));
+        CNFeaturesArrayList.add(new CNPercentMatchesFeature("！"));
+        CNFeaturesArrayList.add(new CNPercentMatchesFeature("？"));
+        CNFeatures theFeature = new CNPercentMatchesFeature("这");
         CNFeaturesArrayList.add(theFeature);
-        CNFeaturesArrayList.add(new CNPercentMatchesFeature("is"));
-        CNFeaturesArrayList.add(new CNPercentMatchesFeature("@.*", true));
+        CNFeaturesArrayList.add(new CNPercentMatchesFeature("是"));
         // need dictionary
         CNFeatures wordFeature = null;
         try {
@@ -68,15 +67,14 @@ public class CNFeatureBuilder {
         normlizationFeatures.add(new CNMinMaxNormalizerFeature(instances, wordFeature, "obvious_typos"));
         normlizationFeatures.add(new CNMinMaxNormalizerFeature(instances, wordLengthFeature, "AverageWordLength"));
         normlizationFeatures.add(new CNMinMaxNormalizerFeature(instances, idfFeature, "AverageIDF"));
+
         normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, idfFeature, "AverageIDF", CNGaussianNormailizerFeature.Type.ABS_ZSCORE));
         normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, idfFeature, "AverageIDF", CNGaussianNormailizerFeature.Type.ZSCORE));
-
         normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, coherenceFeature, "overlap_coherence", CNGaussianNormailizerFeature.Type.ZSCORE));
         normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, coherenceFeature, "overlap_coherence", CNGaussianNormailizerFeature.Type.ABS_ZSCORE));
-
-        normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, theFeature, "PercentMatches_\\Qthe\\E", CNGaussianNormailizerFeature.Type.ZSCORE));
-        normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, theFeature, "PercentMatches_\\Qthe\\E", CNGaussianNormailizerFeature.Type.NORMAL_PROB));
-        normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, theFeature, "PercentMatches_\\Qthe\\E", CNGaussianNormailizerFeature.Type.ABS_ZSCORE));
+        normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, theFeature, "PercentMatches_\\Q这\\E", CNGaussianNormailizerFeature.Type.ZSCORE));
+        normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, theFeature, "PercentMatches_\\Q这\\E", CNGaussianNormailizerFeature.Type.NORMAL_PROB));
+        normlizationFeatures.add(new CNGaussianNormailizerFeature(instances, theFeature, "PercentMatches_\\Q这\\E", CNGaussianNormailizerFeature.Type.ABS_ZSCORE));
         // compute normalization feature
         for (CNEssayInstance instance : instances) {
             for (CNFeatures feature : normlizationFeatures)
@@ -123,11 +121,11 @@ public class CNFeatureBuilder {
 
     public static String arffEscapeName(String name) {
         name = name.replaceAll("\\\\Q|\\\\E", "");    // strip \\Q \\E
-        name = name.replaceAll("!", "exclamation_mark");
+        /*name = name.replaceAll("!", "exclamation_mark");
         name = name.replaceAll("\\?", "question_mark");
         name = name.replaceAll("\\.\\*", "dot_star");
         name = name.replaceAll(",", "comma");
-        name = name.replaceAll("@", "at_sign");
+        name = name.replaceAll("@", "at_sign");*/
 
         return name;
     }

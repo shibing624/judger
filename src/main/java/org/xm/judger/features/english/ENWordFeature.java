@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 
 /**
  * Percent OOV, Percent obvious typos, need a word list to spell check
+ * 检查词拼写
+ * 包括 词库中词语set，词库中词语小写set，拼写错误set（即未登录词），拼写小写错误set
  *
  * @author xuming
  */

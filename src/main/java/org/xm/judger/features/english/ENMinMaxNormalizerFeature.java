@@ -62,6 +62,9 @@ public class ENMinMaxNormalizerFeature implements ENFeatures {
         double tempMin = min.get(instance.set)[0];
         double tempMax = max.get(instance.set)[0];
         // not equal
+        if(tempMax == tempMin){
+            System.out.println(tempMax+" : "+instance);
+        }
         assert (tempMax != tempMin);
         double score = (value - tempMin) / (tempMax - tempMin);
         result.put(name, score);

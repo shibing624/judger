@@ -13,16 +13,16 @@ import java.util.regex.Pattern;
  * @author xuming
  */
 public class ENEssayInstance extends EssayInstance {
-    public static final Pattern paragraphPattern = Pattern.compile("\\s{3,}");
-    public static final Pattern sentencePattern = Pattern.compile("(?<=[\\.?!][^\\w\\s]?)\\s+(?![a-z])");
-    public static final Pattern wordPattern = Pattern.compile("\\s+");
-    public static final Pattern frontPattern = Pattern.compile("([^\\w@]+)(\\w@].*)");
-    public static final Pattern backPattern = Pattern.compile("(.*\\w)(\\W+)");
+    private static final Pattern paragraphPattern = Pattern.compile("\\s{3,}");
+    private static final Pattern sentencePattern = Pattern.compile("(?<=[\\.?!][^\\w\\s]?)\\s+(?![a-z])");
+    private static final Pattern wordPattern = Pattern.compile("\\s+");
+    private static final Pattern frontPattern = Pattern.compile("([^\\w@]+)(\\w@].*)");
+    private static final Pattern backPattern = Pattern.compile("(.*\\w)(\\W+)");
 
     /**
      * EN abbreviation
      */
-    public static final Pattern endsInAbbreviation = Pattern.compile(".*(Mr|Mrs|Dr|Jr|Ms|Prof|Sr|dept|Univ|Inc|Ltd|Co" +
+    private static final Pattern endsInAbbreviation = Pattern.compile(".*(Mr|Mrs|Dr|Jr|Ms|Prof|Sr|dept|Univ|Inc|Ltd|Co" +
             "|Corp|Mt|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Sept|vs|etc|no)\\.");
 
     @Override
@@ -90,7 +90,7 @@ public class ENEssayInstance extends EssayInstance {
         try {
             PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8")));
             for (EssayInstance essay : instances)
-                out.println(essay + "\n");
+                out.println(essay);
             out.close();
         } catch (IOException e) {
             System.err.println("Failure to write to outfile: " + e);

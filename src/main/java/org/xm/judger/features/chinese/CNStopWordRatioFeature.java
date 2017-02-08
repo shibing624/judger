@@ -17,7 +17,7 @@ import java.util.HashSet;
  */
 public class CNStopWordRatioFeature implements CNFeatures {
     HashSet<String> stopwords;
-    private static final String PATH = Config.ENStopwordsPath;
+    private static final String PATH = Config.StopwordsPath;
 
     public CNStopWordRatioFeature() throws IOException {
         this(PATH);
@@ -45,12 +45,9 @@ public class CNStopWordRatioFeature implements CNFeatures {
         for (ArrayList<ArrayList<String>> paragraph : paragraphs) {
             for (ArrayList<String> sentence : paragraph) {
                 for (String token : sentence) {
-                    // filter nonsense words
-                    if (token.length() == 1 && !token.matches("\\w"))
-                        continue;
+                    numWords++;
                     if (stopwords.contains(token.toLowerCase()))
                         numStopwords++;
-                    numWords++;
                 }
             }
         }
