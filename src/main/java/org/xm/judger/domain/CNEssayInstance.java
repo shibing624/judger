@@ -1,8 +1,6 @@
 package org.xm.judger.domain;
 
-import org.xm.xmnlp.Xmnlp;
-import org.xm.xmnlp.seg.domain.Term;
-import org.xm.xmnlp.util.StringUtil;
+import org.xm.judger.util.Tokenizer;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +12,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
+ * 中文作文实例
+ *
  * @author xuming
  */
 public class CNEssayInstance extends EssayInstance {
@@ -34,13 +34,11 @@ public class CNEssayInstance extends EssayInstance {
                 ArrayList<String> wordList = new ArrayList<>();
                 sentenceList.add(wordList);
                 // get token
-                List<Term> tokens = Xmnlp.segment(sentence);
-                for (Term token : tokens) {
-                    if (token == null || StringUtil.isBlank(token.word))
+                List<Tokenizer.Word> tokens = Tokenizer.segment(sentence);
+                for (Tokenizer.Word token : tokens) {
+                    if (token == null || token.getName().length() == 0)
                         continue;
-//                    if (token.nature.startsWith("w"))
-//                        continue;
-                    wordList.add(token.word);
+                    wordList.add(token.getName());
                 }
             }
         }
@@ -50,10 +48,10 @@ public class CNEssayInstance extends EssayInstance {
     /**
      * 把文章分割为句子
      *
-     * @param document
-     * @return
+     * @param document 作文
+     * @return list
      */
-    private List<String> splitSentence(String document) {
+    public List<String> splitSentence(String document) {
         List<String> sentences = new ArrayList<String>();
         for (String line : document.split("[\r\n]")) {
             line = line.trim();
@@ -79,13 +77,12 @@ public class CNEssayInstance extends EssayInstance {
     /**
      * print essay instance info
      *
-     * @param instances
+     * @param instances 实例
      */
     public static void printEssayInstances(ArrayList<CNEssayInstance> instances, String outFile) {
         try {
             PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8")));
-            for (CNEssayInstance essay : instances)
-                out.println(essay);
+            instances.forEach(out::println);
             out.close();
         } catch (IOException e) {
             System.err.println("Failure to write to outfile: " + e);

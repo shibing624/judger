@@ -91,11 +91,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.xm</groupId>
-            <artifactId>similarity</artifactId>
-            <version>1.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.xm</groupId>-->
+            <!--<artifactId>similarity</artifactId>-->
+            <!--<version>1.1</version>-->
+        <!--</dependency>-->
         <!--commons-io-->
         <dependency>
             <groupId>com.kenai.nbpwr</groupId>
