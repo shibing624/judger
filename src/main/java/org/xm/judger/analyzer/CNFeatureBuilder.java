@@ -127,7 +127,13 @@ public class CNFeatureBuilder {
         }
         printWriter.close();
     }
-
+    public static void saveFeatures(ArrayList<CNEssayInstance> instances, int set, String path) {
+        try {
+            saveARFFRealClass(CNFeatureAnalyzer.filter(instances, set), path);
+        } catch (IOException e) {
+            System.err.println("Error saving ARFF: " + e);
+        }
+    }
     public static String arffEscapeName(String name) {
         name = name.replaceAll("\\\\Q|\\\\E", "");    // strip \\Q \\E
         /*name = name.replaceAll("!", "exclamation_mark");

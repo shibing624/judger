@@ -23,6 +23,6 @@ public class Config {
     /**
      * 中文作文训练集路径
      */
-    public static String CNTrainSetPath = "Phase1/training_set_virtual1.tsv";
+    public static String CNTrainSetPath = "Phase1/cn_training_set_rel1.tsv";
 
 }

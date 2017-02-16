@@ -102,6 +102,13 @@ public class ENFeatureBuilder {
             System.err.println("Error saving ARFF: " + e);
         }
     }
+    public static void saveFeatures(ArrayList<ENEssayInstance> instances,int set,String path) {
+        try {
+            saveARFFRealClass(ENFeatureAnalyzer.filter(instances, set), path);
+        } catch (IOException e) {
+            System.err.println("Error saving ARFF: " + e);
+        }
+    }
 
     /**
      * Save the data as an ARFF file where grade is specified as a real-valued feature.

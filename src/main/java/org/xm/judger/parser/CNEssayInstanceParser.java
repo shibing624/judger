@@ -53,10 +53,15 @@ public class CNEssayInstanceParser {
         essay.id = parseInt(fields[0]);
         essay.set = parseInt(fields[1]);
         essay.essay = csvUnescape(fields[2]);
+        if (fields.length <= 3) return essay;
         essay.rater1_domain1 = parseInt(fields[3]);
+        if (fields.length <= 4) return essay;
         essay.rater2_domain1 = parseInt(fields[4]);
+        if (fields.length <= 5) return essay;
         essay.rater3_domain1 = parseInt(fields[5]);
+        if (fields.length <= 6) return essay;
         essay.domain1_score = parseInt(fields[6]);
+
         if (fields.length <= 7) return essay;
         essay.rater1_domain2 = parseInt(fields[7]);
         if (fields.length <= 8) return essay;

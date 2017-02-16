@@ -102,6 +102,10 @@ public class CNGaussianNormailizerFeature implements CNFeatures {
         double tempMean = means.get(instance.set)[0];
         double tempStddev = stddev.get(instance.set)[0];
         // not zero
+        if(tempStddev == 0){
+            values.put(name,0.0);
+            return values;
+        }
         assert (tempStddev != 0);
         double core = (value - tempMean) / tempStddev;
         if (type == Type.ABS_ZSCORE)
