@@ -49,8 +49,8 @@ public class CNWordFeature implements CNFeatures {
                         matches++;
                         if (attr.hasNature(Nature.v)) numVerb++;
                         if (attr.hasNature(Nature.d)) numAdverb++;
-                        if(attr.hasNature(Nature.p)) numPrePosition++;
-                        if(attr.hasNature(Nature.r)) numPronoun++;
+                        if (attr.hasNature(Nature.p)) numPrePosition++;
+                        if (attr.hasNature(Nature.r)) numPronoun++;
                     } else
                         numTypos++;
                 }

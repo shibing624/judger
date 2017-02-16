@@ -19,6 +19,7 @@ public class Config {
 //    public static String ENTrainSetPath ="Phase1/training_set_rel3.tsv";
     public static String ENTrainSetPath = "Phase1/training_set_rel4.tsv";
 
+    public static String ENTrainTestSetPath = "Phase1/training_set1.test.tsv";
     /**
      * 中文作文训练集路径
      */

@@ -9,11 +9,6 @@ public class CNEssayInstanceTest {
     String line = "帽子上面有毛，毛上面的左右两边是一对耳朵，耳朵中间有个鼻子：鼻子比较大！";
 
     @Test
-    public void getParagraphs() throws Exception {
-
-    }
-
-    @Test
     public void splitSentence() throws Exception {
         CNEssayInstance instance = new CNEssayInstance();
         instance.splitSentence(line).forEach(System.out::println);

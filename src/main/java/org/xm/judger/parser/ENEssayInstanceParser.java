@@ -65,21 +65,23 @@ public class ENEssayInstanceParser {
         essay.id = parseInt(fields[0]);
         essay.set = parseInt(fields[1]);
         essay.essay = cleanupText(csvUnescape(fields[2]));
+         if (fields.length <= 3) return essay;
         essay.rater1_domain1 = parseInt(fields[3]);
+         if (fields.length <= 4) return essay;
         essay.rater2_domain1 = parseInt(fields[4]);
+         if (fields.length <= 5) return essay;
         essay.rater3_domain1 = parseInt(fields[5]);
+         if (fields.length <= 6) return essay;
         essay.domain1_score = parseInt(fields[6]);
+
         if (fields.length <= 7) return essay;
         essay.rater1_domain2 = parseInt(fields[7]);
         if (fields.length <= 8) return essay;
         essay.rater2_domain2 = parseInt(fields[8]);
-
         if (fields.length <= 9) return essay;
         essay.domain2_score = parseInt(fields[9]);
-
         if (fields.length <= 10) return essay;
         essay.rater1_trait1 = parseInt(fields[10]);
-
         if (fields.length <= 11) return essay;
         essay.rater1_trait2 = parseInt(fields[11]);
         if (fields.length <= 12) return essay;

@@ -94,6 +94,14 @@ public class ENFeatureBuilder {
             System.err.println("Error saving ARFF: " + e);
         }
     }
+    public static void saveTestFeatures(ArrayList<ENEssayInstance> instances) {
+        try {
+            saveARFFRealClass(ENFeatureAnalyzer.filter(instances, 1), "data/training_essay1_test_real.arff");
+            saveARFFThresholdClass(ENFeatureAnalyzer.filter(instances, 1), "data/training_essay1_test_t8.5.arff", 8.5);
+        } catch (IOException e) {
+            System.err.println("Error saving ARFF: " + e);
+        }
+    }
 
     /**
      * Save the data as an ARFF file where grade is specified as a real-valued feature.

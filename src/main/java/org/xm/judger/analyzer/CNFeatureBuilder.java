@@ -19,6 +19,15 @@ import java.util.List;
  * 这些选出的特征项包括:句子数、平均句长、三级词汇占比、词长大于7的单词数、词长大于8的单词数、词长大于9的单词数、
  * 单词数量、类符形符比、平均词长、动词短语的数量、动词的类符形符比、副词的类符形符比、介词类数以及代词数量。
  *
+ * 这些特征项从长度、词汇(比如词汇量、词汇多样性、复杂词汇和难词等)、搭配(比如动词短语等)、句子(比如复杂句式等)以及不同词性的词汇使用情况等不同角度反映作文的内在特点，每个特征项都有自己的用处:
+ (1)句子数、平均句长反映了句子的复杂程度。
+ (2)三级词汇占比反映了作文中难词的使用情况。单词数量反映了作文的长度，因为大学生英语写作的要求一般为120到150个单词，该特征能检查空作文、过短或者过长的作文。
+ (3)平均词长反映了作文整体的单词复杂度。
+ (4)类符形符比反映了作文使用的词汇多样性。
+ (5)单词的类符数量反映了写作者的词汇量。
+ (6)动词短语的数量，反映了写作者对动词掌握的情况，这个特征项已经经过前期相关学者的研究，证明其在大学英语写作中对作文分数具有较高的预测力。
+ (7)动词的类符形符比、副词的类符形符比、介词类数以及代词数量反映了作文中各个词性词汇的掌握情况。
+ *
  * @author xuming
  */
 public class CNFeatureBuilder {
@@ -32,7 +41,7 @@ public class CNFeatureBuilder {
         PROB
     }
 
-    public static ArrayList<CNEssayInstance> buildFeatures(ArrayList<CNEssayInstance> instances) {
+    public static ArrayList<CNEssayInstance> buildFeatures(ArrayList<CNEssayInstance> instances,int set) {
         ArrayList<CNFeatures> CNFeaturesArrayList = new ArrayList<>();
         CNFeaturesArrayList.add(new CNSentenceLengthFeature());
         CNFeatures wordLengthFeature = new CNWordLengthFeature();
@@ -82,17 +91,17 @@ public class CNFeatureBuilder {
         }
 
         //analysis feature
-        CNFeatureAnalyzer.analysis(instances);
+        CNFeatureAnalyzer.analysis(instances,set);
         return instances;
     }
 
-    public static void saveAllFeatures(ArrayList<CNEssayInstance> instances) {
+    public static void saveAllFeatures(ArrayList<CNEssayInstance> instances,int set) {
         try {
             // generate an ARFF with real valued output class (for regression if possible)
-            saveARFFRealClass(CNFeatureAnalyzer.filter(instances, 1), "data/cn_training_essay1_real.arff");
-            saveARFFDiscreteClass(CNFeatureAnalyzer.filter(instances, 1), "data/cn_training_essay1_discrete.arff");
+            saveARFFRealClass(CNFeatureAnalyzer.filter(instances, set), "data/cn_training_essay1_real.arff");
+            saveARFFDiscreteClass(CNFeatureAnalyzer.filter(instances, set), "data/cn_training_essay1_discrete.arff");
             // generate an ARFF where grade is turned into a binary feature based on the threshold (in this case over/under 8.5)
-            saveARFFThresholdClass(CNFeatureAnalyzer.filter(instances, 1), "data/cn_training_essay1_t8.5.arff", 8.5);
+            saveARFFThresholdClass(CNFeatureAnalyzer.filter(instances, set), "data/cn_training_essay1_t8.5.arff", 8.5);
         } catch (IOException e) {
             System.err.println("Error saving ARFF: " + e);
         }

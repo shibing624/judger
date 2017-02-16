@@ -96,13 +96,7 @@ public abstract class EssayInstance {
     public static List<String> getTokens(EssayInstance instance) {
         List<String> tokens = new ArrayList<>();
         ArrayList<ArrayList<ArrayList<String>>> paragraphs = instance.getParagraphs();
-        for (ArrayList<ArrayList<String>> paragraph : paragraphs) {
-            for (ArrayList<String> sentence : paragraph) {
-                for (String token : sentence) {
-                    tokens.add(token);
-                }
-            }
-        }
+        for (ArrayList<ArrayList<String>> paragraph : paragraphs) paragraph.forEach(tokens::addAll);
         return tokens;
     }
 

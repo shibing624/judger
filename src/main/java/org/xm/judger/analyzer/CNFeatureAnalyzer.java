@@ -118,13 +118,13 @@ public class CNFeatureAnalyzer {
         return sum / instances.size();
     }
 
-    public static void analysis(ArrayList<CNEssayInstance> instances) {
+    public static void analysis(ArrayList<CNEssayInstance> instances,int set) {
         // analysis features are good or bad
-        correlationTest(instances, 1);
+        correlationTest(instances, 4);
 //        correlationTest(instances, 2);
 //        correlationTest(instances, 3);
         // show the average score, etc
-        analyseFeature(filter(instances, 1), "grade");
+        analyseFeature(filter(instances, set), "grade");
     }
 
 }

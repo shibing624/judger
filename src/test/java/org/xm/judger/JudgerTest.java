@@ -31,13 +31,28 @@ public class JudgerTest {
     }
 
     @Test
+    public void testEN_testFile() {
+        ENEssayInstanceParser parser = new ENEssayInstanceParser();
+        // Parse the input training file
+        ArrayList<ENEssayInstance> instances = parser.parse(Config.ENTrainTestSetPath, true);
+        Judger.setENInstances(instances);
+        ENEssayInstance.printEssayInstances(instances, "data/examples_test.utf8");
+
+        // Get feature Scores for each instance
+        ArrayList<ENEssayInstance> instancesFeatures = ENFeatureBuilder.buildFeatures(instances);
+        // Now we have all the instances and features
+        // use any Machine Learning Tools (such as Weka)
+        ENFeatureBuilder.saveTestFeatures(instancesFeatures);
+    }
+
+    @Test
     public void testCN() {
         CNEssayInstanceParser parser = new CNEssayInstanceParser();
         ArrayList<CNEssayInstance> instances = parser.parse(Config.CNTrainSetPath, true);
         Judger.setCNInstances(instances);
         CNEssayInstance.printEssayInstances(instances, "data/cn_examples.utf8");
-        ArrayList<CNEssayInstance> instancesFeatures = CNFeatureBuilder.buildFeatures(instances);
-        CNFeatureBuilder.saveAllFeatures(instancesFeatures);
+        ArrayList<CNEssayInstance> instancesFeatures = CNFeatureBuilder.buildFeatures(instances,4);
+        CNFeatureBuilder.saveAllFeatures(instancesFeatures,4);
     }
 
 }
