@@ -3,10 +3,10 @@ package org.xm.judger.parser;
 import org.xm.judger.domain.CNEssayInstance;
 import org.xm.xmnlp.dic.DicReader;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +21,38 @@ public class CNEssayInstanceParser {
      * match CSV-escaped double quotes
      */
     public static final Pattern escapedDoubleQuote = Pattern.compile("\"\"");
+
+    /**
+     * Load documents from disk
+     *
+     * @param folderPath is a folder, which contains text documents.
+     * @return a corpus
+     * @throws IOException
+     */
+    public ArrayList<CNEssayInstance> load(String folderPath) throws IOException {
+        ArrayList<CNEssayInstance> essayInstances = new ArrayList<>();
+        File folder = new File(folderPath);
+        int count = 0;
+        for (File file : folder.listFiles()) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            String line;
+            List<String> wordList = new LinkedList<>();
+            while ((line = br.readLine()) != null) {
+                if (line.length() == 0) continue;
+                wordList.add(line);
+            }
+            br.close();
+            CNEssayInstance essay = new CNEssayInstance();
+            essay.id = count;
+            essay.essay = wordList.toString();
+            essay.filename = file.getName();
+            essay.title = file.getName();
+            essayInstances.add(essay);
+            count++;
+        }
+
+        return essayInstances;
+    }
 
     public ArrayList<CNEssayInstance> parse(String filename, boolean header) {
         ArrayList<CNEssayInstance> essayInstances = new ArrayList<>();

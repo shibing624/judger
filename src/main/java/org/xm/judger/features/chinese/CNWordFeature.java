@@ -28,7 +28,8 @@ public class CNWordFeature implements CNFeatures {
     @Override
     public HashMap<String, Double> getFeatureScores(CNEssayInstance instance) {
         HashMap<String, Double> result = new HashMap<>();
-        int numWords = 0;
+        int numChars = 0; // 总字数
+        int numWords = 0; // 总词语数
         int matches = 0;
         int numTypos = 0;
         int wordTotalSize = 0; // 分词词典的词语总数
@@ -44,6 +45,7 @@ public class CNWordFeature implements CNFeatures {
             for (ArrayList<String> sentence : paragraph) {
                 for (String token : sentence) {
                     numWords++;
+                    numChars += token.length();
                     CoreDictionary.Attribute attr = LexiconUtil.getAttribute(token.toLowerCase());
                     if (attr != null) {
                         matches++;
@@ -63,6 +65,8 @@ public class CNWordFeature implements CNFeatures {
         result.put("Adverb_TTR", new Double(numAdverb / (double) wordTotalSize)); // 副词的类符形符比
         result.put("Num_PrePosition", new Double(numPrePosition)); // 介词数
         result.put("Num_Pronoun", new Double(numPronoun)); // 代词数
+        result.put("Num_Chars", new Double(numChars)); // 总字数
+        result.put("Num_Words", new Double(numWords)); // 总词数
         if (Config.DEBUG) {
             System.out.println("OOVs for ID(" + instance.id + "): " + result.get("OOVs"));
             System.out.println("Obvious typos for ID(" + instance.id + "): " + result.get("obvious_typos"));
@@ -71,6 +75,7 @@ public class CNWordFeature implements CNFeatures {
             System.out.println("Adverb_TTR for ID(" + instance.id + "): " + result.get("Adverb_TTR"));
             System.out.println("Num_PrePosition for ID(" + instance.id + "): " + result.get("Num_PrePosition"));
             System.out.println("Num_Pronoun for ID(" + instance.id + "): " + result.get("Num_Pronoun"));
+            System.out.println("Num_Chars for ID(" + instance.id + "): " + result.get("Num_Chars"));
         }
         return result;
     }

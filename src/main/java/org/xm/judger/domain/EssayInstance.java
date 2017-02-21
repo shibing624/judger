@@ -15,6 +15,8 @@ public abstract class EssayInstance {
     public int id;
     public int set;
     public String essay;
+    public String title;
+    public String filename;
     public int rater1_domain1 = -1;
     public int rater2_domain1 = -1;
     public int rater3_domain1 = -1;

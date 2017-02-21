@@ -58,7 +58,8 @@ public class CNEssayInstance extends EssayInstance {
             if (line.length() == 0) continue;
 
             int i = 0;
-            for (String s : line.split("[,，.。；;“”？?!！：:]")) {
+            //for (String s : line.split("[,，.。；;“”？?!！：:]")) {
+            for (String s : line.split("[.。？?!！]")) {
                 s = s.trim();
                 if (s.length() == 0)
                     continue;

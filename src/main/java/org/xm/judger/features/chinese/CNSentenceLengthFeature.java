@@ -35,7 +35,7 @@ public class CNSentenceLengthFeature implements CNFeatures {
         }
 
         HashMap<String, Double> values = new HashMap<>();
-        values.put("numSentences", new Double(numSentences));
+        values.put("Num_Sentences", new Double(numSentences));
         values.put("AverageSentenceLength", new Double(sumCount / (double) numSentences));
         values.put("MoreThanSevenWordSentenceCount", new Double(moreThanSevenWordSentenceCount));
         values.put("MoreThanSevenWordSentenceRatio", new Double(moreThanSevenWordSentenceCount / (double) numSentences));
