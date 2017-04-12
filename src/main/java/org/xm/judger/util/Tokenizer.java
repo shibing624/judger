@@ -1,6 +1,7 @@
 package org.xm.judger.util;
 
 import org.xm.xmnlp.Xmnlp;
+import org.xm.xmnlp.seg.domain.Term;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,17 +118,8 @@ public class Tokenizer {
 
     public static List<Word> segment(String sentence) {
         List<Word> results = new ArrayList<>();
-
-        //ansj
-        /*List<org.xm.ansj.domain.Term> termList = StandardSegmentation.parse(sentence).getTerms();
-        results.addAll(termList
-                .stream()
-                .map(term -> new Word(term.getName(), term.getNature().natureStr))
-                .collect(Collectors.toList())
-        );*/
-
-        //Xmnlp
-        List<org.xm.xmnlp.seg.domain.Term> termList = Xmnlp.segment(sentence);
+        // 中文分词器
+        List<Term> termList = Xmnlp.segment(sentence).getTerms();
         results.addAll(termList
                 .stream()
                 .map(term -> new Word(term.word, term.getNature().name()))

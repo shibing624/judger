@@ -123,8 +123,8 @@ public class CNFeatureBuilder {
         for (CNEssayInstance instance : instances) {
             for (String feature : features)
                 printWriter.print(instance.getFeature(feature) + ",");
-            //printWriter.println(instance.getFeature("grade"));
-            printWriter.println(instance.title);
+            printWriter.println(instance.getFeature("grade"));
+            //printWriter.println(instance.title);
         }
         printWriter.close();
     }

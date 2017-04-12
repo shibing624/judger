@@ -82,7 +82,7 @@
         <dependency>
             <groupId>org.xm</groupId>
             <artifactId>xmnlp</artifactId>
-            <version>1.3</version>
+            <version>1.4</version>
         </dependency>
         <!-- 测试包 -->
         <dependency>

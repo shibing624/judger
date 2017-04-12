@@ -88,7 +88,7 @@ public class JudgerTest {
         }
     }
 
-    public void saveENARFF(String inputPath,String outputPath){
+    public void saveENARFF(String inputPath, String outputPath) {
         ENEssayInstanceParser parser = new ENEssayInstanceParser();
         // Parse the input training file
         ArrayList<ENEssayInstance> instances = parser.parse(inputPath, true);
@@ -99,18 +99,19 @@ public class JudgerTest {
         ArrayList<ENEssayInstance> instancesFeatures = ENFeatureBuilder.buildFeatures(instances);
         // Now we have all the instances and features
         // use any Machine Learning Tools (such as Weka)
-        ENFeatureBuilder.saveFeatures(instancesFeatures,1,outputPath);
+        ENFeatureBuilder.saveFeatures(instancesFeatures, 1, outputPath);
     }
+
     @Test
     public void testENClassifierNew() throws Exception {
-        String trainSetPath = "Phase1/training_set_rel4.tsv";
+        String trainSetPath = "Phase1/training_set_rel3.tsv";
         String saveTrainFeaturesPath = "data/training_real.arff";
 
-        String testSetPath = "Phase1/training_set1.test.tsv";
+        String testSetPath = "Phase1/training_set_rel4.tsv";
         String saveTestFeaturesPath = "data/test_real.arff";
 
-        saveENARFF(trainSetPath,saveTrainFeaturesPath);
-        saveENARFF(testSetPath,saveTestFeaturesPath);
+        saveENARFF(trainSetPath, saveTrainFeaturesPath);
+        saveENARFF(testSetPath, saveTestFeaturesPath);
 
         ArffLoader loader = new ArffLoader();
         loader.setFile(new File(saveTrainFeaturesPath));
@@ -124,7 +125,7 @@ public class JudgerTest {
 
         RandomForest classifier = new RandomForest();
         classifier.buildClassifier(train);
-        System.out.println("num\t-\tfact\t-\tpred\t-\terr\t-\tdistribution");
+        System.out.println("num\t- fact\t- pred\t- err\t- distribution");
         for (int i = 0; i < test.numInstances(); i++) {
             double pred = classifier.classifyInstance(test.instance(i));
             double[] dist = classifier.distributionForInstance(test.instance(i));

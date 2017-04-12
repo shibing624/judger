@@ -40,6 +40,7 @@ public class JudgerCNTest {
         // use any Machine Learning Tools (such as Weka)
         CNFeatureBuilder.saveFeatures(instancesFeatures,4,outputPath);
     }
+
     @Test
     public void testCNClassifierNew() throws Exception {
         String trainSetPath = "Phase1/cn_training_set_rel1.tsv";
